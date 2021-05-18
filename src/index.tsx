@@ -1,15 +1,14 @@
 /**
  * @class JSGanttComponent
  */
-import * as React from 'react'
+import * as React from 'react';
 import * as JSGantt from 'jsgantt-improved';
-// import '../node_modules/jsgantt-improved/dist/jsgantt.css';
 import './styles.scss';
 
 export type Props = {
   data: Array<any>,
-  options: Object
-}
+  options: Object;
+};
 
 export default class JSGanttComponent extends React.Component<Props> {
   public id = 'reactgantteditor' + Math.floor(Math.random() * 1000000);
@@ -56,7 +55,7 @@ export default class JSGanttComponent extends React.Component<Props> {
         data.forEach((row: any) => {
           row.pGantt = g;
           g.AddTaskItemObject(row);
-        })
+        });
       }
       g.Draw();
     }
@@ -66,7 +65,6 @@ export default class JSGanttComponent extends React.Component<Props> {
     return (
       <div id={this.id} className="gantt">
       </div>
-    )
+    );
   }
 }
-
