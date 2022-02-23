@@ -3193,7 +3193,7 @@ exports.taskLink = function (pRef, pWidth, pHeight) {
         vHeight = pHeight;
     else
         vHeight = 400;
-    window.open(pRef, 'newwin', 'height=' + vHeight + ',width=' + vWidth); // let OpenWindow = 
+    window.open(pRef, 'newwin', 'height=' + vHeight + ',width=' + vWidth); // let OpenWindow =
 };
 exports.sortTasks = function (pList, pID, pIdx) {
     if (pList.length < 2) {
@@ -3207,13 +3207,7 @@ exports.sortTasks = function (pList, pID, pIdx) {
     }
     if (sortArr.length > 0) {
         sortArr.sort(function (a, b) {
-            var i = a.getStart().getTime() - b.getStart().getTime();
-            if (i == 0)
-                i = a.getEnd().getTime() - b.getEnd().getTime();
-            if (i == 0)
-                return a.getID() - b.getID();
-            else
-                return i;
+            return a.getID() - b.getID();
         });
     }
     for (var j = 0; j < sortArr.length; j++) {
@@ -3860,8 +3854,7 @@ exports.processRows = function (pList, pID, pRow, pLevel, pOpen, pUseSort, vDebu
         }
         pList[pRow].setNumKid(vNumKid);
         pList[pRow].setWeight(vWeight);
-        pList[pRow].setCompVal(Number(vCompSum / vWeight).toFixed(1));
-
+        pList[pRow].setCompVal((vCompSum / vWeight).toFixed(1));
     }
     if (pID == 0 && pUseSort == 1) {
         var bd = void 0;
