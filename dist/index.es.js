@@ -5164,7 +5164,7 @@ var JSGanttComponent = /** @class */ (function (_super) {
     __extends(JSGanttComponent, _super);
     function JSGanttComponent() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.id = 'reactgantteditor' + Math.floor(Math.random() * 1000000);
+        _this.id = 'reactgantteditor' + (Math.floor(Math.random() * 1000000) + '-');
         _this.optionsChanged = false;
         return _this;
     }
@@ -5175,6 +5175,7 @@ var JSGanttComponent = /** @class */ (function (_super) {
         this.makeChart();
     };
     JSGanttComponent.prototype.makeChart = function () {
+        var _a;
         var jsantt = JSGantt;
         var GanttChart = jsantt.default.GanttChart;
         var g = this.editor = new GanttChart(document.getElementById(this.id), 'week');
@@ -5188,17 +5189,18 @@ var JSGanttComponent = /** @class */ (function (_super) {
                 // Even with setUseSingleCell using Hour format on such a large chart can cause issues in some browsers
                 vFormatArr: ['Day', 'Week', 'Month', 'Quarter'] }, optionsBefore));
             var data = this.props.data;
-            if (data && data.forEach) {
-                data.forEach(function (row) {
-                    row.pGantt = g;
-                    g.AddTaskItemObject(row);
-                });
-            }
+            var taskItemObjects = data === null || data === void 0 ? void 0 : data.map(function (row) {
+                row.pGantt = g;
+                return g.AddTaskItemObject(row);
+            });
             g.Draw();
+            if ((_a = this.props) === null || _a === void 0 ? void 0 : _a.onMakeChart) {
+                this.props.onMakeChart(this.editor, taskItemObjects);
+            }
         }
     };
     JSGanttComponent.prototype.render = function () {
-        return (React.createElement("div", { id: this.id, className: "gantt" }));
+        return React.createElement("div", { id: this.id, className: "gantt" });
     };
     return JSGanttComponent;
 }(React.Component));

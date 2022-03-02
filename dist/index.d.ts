@@ -6,6 +6,7 @@ import './styles.scss';
 export declare type Props = {
     data: Array<any>;
     options: Object;
+    onMakeChart?: (editor: any, taskItemObjects: any[]) => void;
 };
 export default class JSGanttComponent extends React.Component<Props> {
     id: string;

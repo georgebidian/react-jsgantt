@@ -8,17 +8,19 @@ import './styles.scss';
 export type Props = {
   data: Array<any>,
   options: Object;
+  onMakeChart?: (editor: any, taskItemObjects: any[]) => void;
 };
 
 export default class JSGanttComponent extends React.Component<Props> {
-  public id = 'reactgantteditor' + Math.floor(Math.random() * 1000000);
+  public id = 'reactgantteditor' + (Math.floor(Math.random() * 1000000) + '-');
   public editor: any;
-  options: any;
+  public options: any;
   public optionsChanged = false;
 
   componentDidMount() {
     this.makeChart();
   }
+
   componentDidUpdate() {
     this.makeChart();
   }
@@ -34,9 +36,7 @@ export default class JSGanttComponent extends React.Component<Props> {
     }
 
     if (g.getDivId() != null) {
-
       g.setOptions({
-
         vCaptionType: 'Complete',  // Set to Show Caption : None,Caption,Resource,Duration,Complete,
         vQuarterColWidth: 36,
         vDateTaskDisplayFormat: 'day dd month yyyy', // Shown in tool tip box
@@ -50,21 +50,22 @@ export default class JSGanttComponent extends React.Component<Props> {
         vFormatArr: ['Day', 'Week', 'Month', 'Quarter'],
         ...optionsBefore
       });
+
       const { data } = this.props;
-      if (data && data.forEach) {
-        data.forEach((row: any) => {
-          row.pGantt = g;
-          g.AddTaskItemObject(row);
-        });
-      }
+      const taskItemObjects = data?.map((row: any) => {
+        row.pGantt = g;
+        return g.AddTaskItemObject(row);
+      });
+
       g.Draw();
+
+      if (this.props?.onMakeChart) {
+        this.props.onMakeChart(this.editor, taskItemObjects);
+      }
     }
   }
 
   render() {
-    return (
-      <div id={this.id} className="gantt">
-      </div>
-    );
+    return <div id={this.id} className="gantt" />;
   }
 }
