@@ -11,7 +11,7 @@ export type Props = {
   onMakeChart?: (editor: any, taskItemObjects: any[]) => void;
 };
 
-export default class JSGanttComponent extends React.Component<Props> {
+export default class JSGanttComponent extends React.PureComponent<Props> {
   public id = 'reactgantteditor' + (Math.floor(Math.random() * 1000000) + '-');
   public editor: any;
   public options: any;
@@ -21,8 +21,10 @@ export default class JSGanttComponent extends React.Component<Props> {
     this.makeChart();
   }
 
-  componentDidUpdate() {
-    this.makeChart();
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.data !== prevProps.data && this.props.options !== prevProps.options) {
+      this.makeChart();
+    }
   }
 
   makeChart() {

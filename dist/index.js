@@ -5222,8 +5222,10 @@ var JSGanttComponent = /** @class */ (function (_super) {
     JSGanttComponent.prototype.componentDidMount = function () {
         this.makeChart();
     };
-    JSGanttComponent.prototype.componentDidUpdate = function () {
-        this.makeChart();
+    JSGanttComponent.prototype.componentDidUpdate = function (prevProps) {
+        if (this.props.data !== prevProps.data && this.props.options !== prevProps.options) {
+            this.makeChart();
+        }
     };
     JSGanttComponent.prototype.makeChart = function () {
         var _a;
@@ -5254,7 +5256,7 @@ var JSGanttComponent = /** @class */ (function (_super) {
         return React__namespace.createElement("div", { id: this.id, className: "gantt" });
     };
     return JSGanttComponent;
-}(React__namespace.Component));
+}(React__namespace.PureComponent));
 
 exports.default = JSGanttComponent;
 //# sourceMappingURL=index.js.map

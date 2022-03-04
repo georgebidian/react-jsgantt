@@ -8,13 +8,13 @@ export declare type Props = {
     options: Object;
     onMakeChart?: (editor: any, taskItemObjects: any[]) => void;
 };
-export default class JSGanttComponent extends React.Component<Props> {
+export default class JSGanttComponent extends React.PureComponent<Props> {
     id: string;
     editor: any;
     options: any;
     optionsChanged: boolean;
     componentDidMount(): void;
-    componentDidUpdate(): void;
+    componentDidUpdate(prevProps: Props): void;
     makeChart(): void;
     render(): JSX.Element;
 }
