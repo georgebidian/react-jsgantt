@@ -22,8 +22,7 @@ export default class JSGanttComponent extends React.PureComponent<Props> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    // TODO Improve options comparison
-    if (this.props.data !== prevProps.data || JSON.stringify(this.props.options) !== JSON.stringify(prevProps.options)) {
+    if (this.props.data !== prevProps.data || this.props.options !== prevProps.options) {
       this.makeChart();
     }
   }

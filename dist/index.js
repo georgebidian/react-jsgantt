@@ -1182,7 +1182,8 @@ exports.DrawDependencies = function (vDebug) {
     }
     // draw the current date line
     if (this.vTodayPx >= 0) {
-        this.sLine(this.vTodayPx, 0, this.vTodayPx, this.getChartTable().offsetHeight - 1, 'gCurDate');
+        var tmpCurDate = this.sLine(this.vTodayPx, 0, this.vTodayPx, this.getChartTable().offsetHeight - 1, 'gCurDate');
+        tmpCurDate.scrollIntoView({ inline: 'center' });
     }
 };
 
@@ -5223,8 +5224,7 @@ var JSGanttComponent = /** @class */ (function (_super) {
         this.makeChart();
     };
     JSGanttComponent.prototype.componentDidUpdate = function (prevProps) {
-        // TODO Improve options comparison
-        if (this.props.data !== prevProps.data || JSON.stringify(this.props.options) !== JSON.stringify(prevProps.options)) {
+        if (this.props.data !== prevProps.data || this.props.options !== prevProps.options) {
             this.makeChart();
         }
     };
