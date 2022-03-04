@@ -23,9 +23,6 @@
     "deploy": "gh-pages -d example/build",
     "publish-npm": "npm run build && npm publish"
   },
-  "dependencies": {
-    "jsgantt-improved": "github:contilio/jsgantt-improved"
-  },
   "peerDependencies": {
     "prop-types": ">=15.5.4",
     "react": ">=15.0.0",
@@ -40,6 +37,7 @@
     "babel-runtime": "^6.26.0",
     "cross-env": "^5.1.4",
     "gh-pages": "^1.2.0",
+    "jsgantt-improved": "github:contilio/jsgantt-improved",
     "node-sass": "^6.0.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

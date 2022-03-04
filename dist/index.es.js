@@ -3153,9 +3153,9 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.processRows = exports.ClearTasks = exports.RemoveTaskItem = exports.AddTaskItemObject = exports.AddTaskItem = exports.createTaskInfo = exports.TaskItem = exports.TaskItemObject = exports.sortTasks = exports.taskLink = void 0;
-var general_utils_1 = require("./utils/general_utils");
-var draw_utils_1 = require("./utils/draw_utils");
 var date_utils_1 = require("./utils/date_utils");
+var draw_utils_1 = require("./utils/draw_utils");
+var general_utils_1 = require("./utils/general_utils");
 // function to open window to display task link
 exports.taskLink = function (pRef, pWidth, pHeight) {
     var vWidth, vHeight;
@@ -3170,6 +3170,7 @@ exports.taskLink = function (pRef, pWidth, pHeight) {
     window.open(pRef, 'newwin', 'height=' + vHeight + ',width=' + vWidth); // let OpenWindow =
 };
 exports.sortTasks = function (pList, pID, pIdx) {
+    var isGroupRegEx = /group/i;
     if (pList.length < 2) {
         return pIdx;
     }
@@ -3181,14 +3182,31 @@ exports.sortTasks = function (pList, pID, pIdx) {
     }
     if (sortArr.length > 0) {
         sortArr.sort(function (a, b) {
-            return a.getID() - b.getID();
+            var aIsGroup = isGroupRegEx.test(a.getClass());
+            var bIsGroup = isGroupRegEx.test(b.getClass());
+            // Both groups
+            if (aIsGroup && bIsGroup) {
+                return a.getID() - b.getID();
+            }
+            // One group, one task
+            if (aIsGroup !== bIsGroup) {
+                return aIsGroup ? 1 : -1;
+            }
+            // Both tasks
+            var i = a.getStart().getTime() - b.getStart().getTime();
+            if (i == 0)
+                i = a.getEnd().getTime() - b.getEnd().getTime();
+            if (i == 0)
+                return a.getID() - b.getID();
+            else
+                return i;
         });
     }
     for (var j = 0; j < sortArr.length; j++) {
-        for (var i = 0; i < pList.length; i++) {
-            if (pList[i].getID() == sortArr[j].getID()) {
-                pList[i].setSortIdx(sortIdx++);
-                sortIdx = exports.sortTasks(pList, pList[i].getID(), sortIdx);
+        for (var i_1 = 0; i_1 < pList.length; i_1++) {
+            if (pList[i_1].getID() == sortArr[j].getID()) {
+                pList[i_1].setSortIdx(sortIdx++);
+                sortIdx = exports.sortTasks(pList, pList[i_1].getID(), sortIdx);
             }
         }
     }
@@ -3411,6 +3429,10 @@ exports.TaskItem = function (pID, pName, pStart, pEnd, pClass, pLink, pMile, pRe
         if (vMile) {
             vDuration = '-';
         }
+        else if (this.getDataObject().pPrecalculatedDuration != null) {
+            var hours = +this.getDataObject().pPrecalculatedDuration;
+            vDuration = calculateVDuration(pFormat, pLang, null, null, hours);
+        }
         else if (!vEnd && !vStart && vPlanStart && vPlanEnd) {
             return calculateVDuration(pFormat, pLang, this.getPlanStart(), this.getPlanEnd());
         }
@@ -3422,7 +3444,7 @@ exports.TaskItem = function (pID, pName, pStart, pEnd, pClass, pLink, pMile, pRe
         }
         return vDuration;
     };
-    function calculateVDuration(pFormat, pLang, start, end) {
+    function calculateVDuration(pFormat, pLang, start, end, hours) {
         var vDuration;
         var vUnits = null;
         switch (pFormat) {
@@ -3444,7 +3466,9 @@ exports.TaskItem = function (pID, pName, pStart, pEnd, pClass, pLink, pMile, pRe
         //   vTaskEnd = new Date(vTaskEnd.getFullYear(), vTaskEnd.getMonth(), vTaskEnd.getDate() + 1, vTaskEnd.getHours(), vTaskEnd.getMinutes(), vTaskEnd.getSeconds());
         // }
         // let tmpPer = (getOffset(this.getStart(), vTaskEnd, 999, vUnits)) / 1000;
-        var hours = (end.getTime() - start.getTime()) / 1000 / 60 / 60;
+        if (typeof hours !== 'number') {
+            hours = (end.getTime() - start.getTime()) / 1000 / 60 / 60;
+        }
         var tmpPer;
         switch (vUnits) {
             case 'hour':
@@ -3599,7 +3623,7 @@ exports.TaskItem = function (pID, pName, pStart, pEnd, pClass, pLink, pMile, pRe
             pComp: vComp,
             pCost: vCost,
             pGroup: vGroup,
-            pDataObjec: vDataObject
+            pDataObject: vDataObject
         };
     };
 };
@@ -3711,6 +3735,7 @@ exports.AddTaskItem = function (value) {
         this.vTaskList.push(value);
         this.vProcessNeeded = true;
     }
+    return value;
 };
 exports.AddTaskItemObject = function (object) {
     if (!object.pGantt) {
