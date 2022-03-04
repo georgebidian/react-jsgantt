@@ -5196,16 +5196,19 @@ var JSGanttComponent = /** @class */ (function (_super) {
     JSGanttComponent.prototype.componentDidMount = function () {
         this.makeChart();
     };
-    JSGanttComponent.prototype.componentDidUpdate = function () {
-        this.makeChart();
+    JSGanttComponent.prototype.componentDidUpdate = function (prevProps) {
+        // TODO Improve options comparison
+        if (this.props.data !== prevProps.data || JSON.stringify(this.props.options) !== JSON.stringify(prevProps.options)) {
+            this.makeChart();
+        }
     };
     JSGanttComponent.prototype.makeChart = function () {
-        var _a;
+        var _a, _b;
         var jsantt = JSGantt;
         var GanttChart = jsantt.default.GanttChart;
         var g = this.editor = new GanttChart(document.getElementById(this.id), 'week');
         var optionsBefore = this.options || this.props.options;
-        if (!this.optionsChanged && this.editor && this.editor.options) {
+        if (!this.optionsChanged && ((_a = this.editor) === null || _a === void 0 ? void 0 : _a.options)) {
             optionsBefore = this.editor.options;
         }
         if (g.getDivId() != null) {
@@ -5219,7 +5222,7 @@ var JSGanttComponent = /** @class */ (function (_super) {
                 return g.AddTaskItemObject(row);
             });
             g.Draw();
-            if ((_a = this.props) === null || _a === void 0 ? void 0 : _a.onMakeChart) {
+            if ((_b = this.props) === null || _b === void 0 ? void 0 : _b.onMakeChart) {
                 this.props.onMakeChart(this.editor, taskItemObjects);
             }
         }
@@ -5228,7 +5231,7 @@ var JSGanttComponent = /** @class */ (function (_super) {
         return React.createElement("div", { id: this.id, className: "gantt" });
     };
     return JSGanttComponent;
-}(React.Component));
+}(React.PureComponent));
 
 export default JSGanttComponent;
 //# sourceMappingURL=index.es.js.map
