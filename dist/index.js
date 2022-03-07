@@ -3274,7 +3274,7 @@ exports.TaskItem = function (pID, pName, pStart, pEnd, pClass, pLink, pMile, pRe
         parent = general_utils_1.hashKey(parent).toString();
     }
     var vParent = parent;
-    var vOpen = (vGroup == 2) ? 1 : parseInt(document.createTextNode(pOpen).data);
+    var vOpen = (vGroup == 2 || pOpen === undefined) ? 1 : parseInt(document.createTextNode(pOpen).data);
     var vDepend = new Array();
     var vDependType = new Array();
     var vCaption = document.createTextNode(pCaption).data;
