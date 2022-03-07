@@ -1021,8 +1021,9 @@ exports.draw_header = function (column, i, vTmpRow, vTaskList, vEditable, vEvent
             var header = vAdditionalHeaders[key];
             var css = header.class ? header.class : "gadditional-" + key;
             var data = vTaskList[i].getDataObject();
+            var formattedValue = data ? (typeof data[key] === 'number' ? data[key].toLocaleString() : data[key]) : '';
             vTmpCell = draw_utils_1.newNode(vTmpRow, 'td', null, "gadditional " + css);
-            draw_utils_1.newNode(vTmpCell, 'div', null, null, data ? data[key] : '');
+            draw_utils_1.newNode(vTmpCell, 'div', null, null, formattedValue);
             events_1.addListenerClickCell(vTmpCell, vEvents, vTaskList[i], "additional_" + key);
             // const callback = (task, e) => task.setCost(e.target.value);
             // addListenerInputCell(vTmpCell, vEventsChange, callback, vTaskList, i, 'costdate');
