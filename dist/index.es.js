@@ -3178,6 +3178,11 @@ exports.sortTasks = function (pList, pID, pIdx) {
     }
     if (sortArr.length > 0) {
         sortArr.sort(function (a, b) {
+            // Sort using pOrder property, if available ...
+            if (a.getDataObject().pOrder != null && b.getDataObject().pOrder != null) {
+                return a.getDataObject().pOrder - b.getDataObject().pOrder;
+            }
+            // ... otherwise sort groups by ID and tasks by date
             var aIsGroup = isGroupRegEx.test(a.getClass());
             var bIsGroup = isGroupRegEx.test(b.getClass());
             // Both groups
