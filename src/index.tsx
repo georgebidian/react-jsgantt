@@ -1,7 +1,7 @@
 /**
  * @class JSGanttComponent
  */
-import * as React from 'react';
+import React from 'react';
 import * as JSGantt from 'jsgantt-improved';
 import './styles.scss';
 

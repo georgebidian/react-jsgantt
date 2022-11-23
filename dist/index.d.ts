@@ -1,9 +1,9 @@
 /**
  * @class JSGanttComponent
  */
-import * as React from 'react';
+import React from 'react';
 import './styles.scss';
-export declare type Props = {
+export type Props = {
     data: Array<any>;
     options: Object;
     onMakeChart?: (editor: any, taskItemObjects: any[]) => void;
