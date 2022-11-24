@@ -16,9 +16,9 @@ npm install --save react-jsgantt
 ## Usage
 
 ```tsx
-import * as React from 'react'
-
-import JSGantt from 'react-jsgantt'
+import React from 'react';
+import JSGantt from 'react-jsgantt';
+import 'react-jsgantt/dist/index.css';
 
 class Example extends React.Component {
 
@@ -50,7 +50,7 @@ class Example extends React.Component {
       vWeekMinorDateDisplayFormat: 'dd mon'
     }]
   }
-      
+
 
   render () {
     return (
