@@ -5,8 +5,13 @@ import url from '@rollup/plugin-url';
 import svgr from '@svgr/rollup';
 import * as path from 'path';
 import external from 'rollup-plugin-peer-deps-external';
-import postcss from 'rollup-plugin-postcss';
+import scss from 'rollup-plugin-scss';
+import sass from 'sass';
+import { fileURLToPath } from 'url';
 import pkg from './package.json' assert { type: "json" };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default {
   input: 'src/index.tsx',
@@ -26,13 +31,13 @@ export default {
   ],
   plugins: [
     external(),
-    postcss({
-      use: [
-        ['sass', {
-          includePaths: [path.resolve('node_modules')]
-        }]
+    scss({
+      fileName: 'index.css',
+      includePaths: [
+        path.join(__dirname, 'node_modules/'),
       ],
-      modules: true
+      outputStyle: 'compressed',
+      sass,
     }),
     url(),
     svgr(),

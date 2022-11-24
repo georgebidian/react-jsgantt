@@ -24,6 +24,9 @@
     "react": ">=15.0.0",
     "react-dom": ">=15.0.0"
   },
+  "dependencies": {
+    "jsgantt-improved": "github:contilio/jsgantt-improved"
+  },
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.2",
     "@rollup/plugin-commonjs": "^23.0.2",
@@ -37,12 +40,11 @@
     "babel-runtime": "^6.26.0",
     "cross-env": "^5.1.4",
     "gh-pages": "^1.2.0",
-    "jsgantt-improved": "github:contilio/jsgantt-improved",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^3.4.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-scss": "^4.0.0",
     "sass": "^1.56.1",
     "tslib": "^2.4.1",
     "typescript": "^4.9.3"
