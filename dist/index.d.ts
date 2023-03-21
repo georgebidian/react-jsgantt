@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import './styles.scss';
-export type Props = {
+export declare type Props = {
     data: Array<any>;
     options: Object;
     onMakeChart?: (editor: any, taskItemObjects: any[]) => void;

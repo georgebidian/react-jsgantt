@@ -69,7 +69,11 @@ function commonjsRequire(path) {
 	throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
 }
 
-var jsgantt$1 = {exports: {}};
+var jsganttExports = {};
+var jsgantt$1 = {
+  get exports(){ return jsganttExports; },
+  set exports(v){ jsganttExports = v; },
+};
 
 (function (module, exports) {
 	(function(f){{module.exports=f();}})(function(){return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof commonjsRequire&&commonjsRequire;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t);}return n[i].exports}for(var u="function"==typeof commonjsRequire&&commonjsRequire,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
@@ -5182,12 +5186,12 @@ var jsgantt$1 = {exports: {}};
 	});
 } (jsgantt$1));
 
-var jsgantt = /*@__PURE__*/getDefaultExportFromCjs(jsgantt$1.exports);
+var jsgantt = /*@__PURE__*/getDefaultExportFromCjs(jsganttExports);
 
 var JSGantt = /*#__PURE__*/_mergeNamespaces({
     __proto__: null,
     default: jsgantt
-}, [jsgantt$1.exports]);
+}, [jsganttExports]);
 
 var JSGanttComponent = /** @class */ (function (_super) {
     __extends(JSGanttComponent, _super);
